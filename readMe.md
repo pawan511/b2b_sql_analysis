@@ -1,3 +1,5 @@
+#This Sql Application is created for managing event and tickets for event management company
+
 Entity_and_Attributes.txt -->to know about Entity , Attribute and releationship 
 
 ER-diagram.png file --> Entity-Relationship model
