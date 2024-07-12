@@ -1,0 +1,89 @@
+Entity and Attributes
+
+### Independent Tables
+
+1. **VenueOrganizer**
+    - `VenueOrganizerID`: serial (Primary Key)
+    - `Name`: varchar(255) (Not Null)
+    - `ContactInfo`: varchar(255)
+
+2. **Customer**
+    - `CustomerID`: serial (Primary Key)
+    - `CustName`: varchar(255) (Not Null)
+    - `EmailId`: varchar(255) (Not Null, Unique)
+    - `ContactInfo`: varchar(255)
+
+3. **Reseller**
+    - `ResellerID`: serial (Primary Key)
+    - `Name`: varchar(255) (Not Null)
+    - `ContactInfo`: varchar(255)
+    - `CommissionRate`: numeric(5, 2) (Not Null)
+
+### Primary Tables
+
+4. **Event**
+    - `EventId`: integer (Primary Key, Default: next value from sequence)
+    - `VenueOrganizerID`: integer (Foreign Key referencing `VenueOrganizer.VenueOrganizerID`)
+    - `EventName`: varchar(255) (Not Null)
+    - `IsRecurring`: boolean
+    - `RecurrencePattern`: varchar
+
+### Dependent Tables
+
+5. **Seller**
+    - `SellerID`: integer (Primary Key, Default: next value from sequence)
+    - `VenueOrganizerID`: integer (Foreign Key referencing `VenueOrganizer.VenueOrganizerID`)
+    - `ResellerID`: integer (Foreign Key referencing `Reseller.ResellerID`)
+    - `SellerType`: varchar(20)
+
+6. **SubEvent**
+    - `SubEventId`: serial (Primary Key)
+    - `EventId`: integer (Foreign Key referencing `Event.EventId`)
+    - `EventDate`: timestamp (Not Null)
+    - `TotalTicket`: numeric(10, 0) (Not Null)
+
+7. **TicketCategory**
+    - `TicketCategoryID`: serial (Primary Key)
+    - `SubEventId`: integer (Foreign Key referencing `SubEvent.SubEventId`)
+    - `CategoryName`: varchar (Not Null)
+    - `Price`: numeric(10, 2) (Not Null)
+    - `MaxTicket`: numeric (Not Null)
+
+### Allocation and Sales Tables
+
+8. **EventTicketAllocation**
+    - `AllocationID`: serial (Primary Key)
+    - `ResellerID`: integer (Foreign Key referencing `Reseller.ResellerID`)
+    - `TicketCategoryID`: integer (Foreign Key referencing `TicketCategory.TicketCategoryID`)
+    - `AllocatedTickets`: numeric (Not Null)
+
+9. **TicketSale**
+    - `SaleID`: serial (Primary Key)
+    - `CustomerID`: integer (Foreign Key referencing `Customer.CustomerID`)
+    - `SellerID`: integer (Foreign Key referencing `Seller.SellerID`)
+    - `SaleDate`: timestamp
+
+10. **TicketSaleDetail**
+    - `SaleDetailID`: serial (Primary Key)
+    - `SaleID`: integer (Foreign Key referencing `TicketSale.SaleID`)
+    - `TicketCategoryID`: integer (Foreign Key referencing `TicketCategory.TicketCategoryID`)
+    - `Quantity`: numeric(10, 0) (Not Null)
+    - `Amount`: numeric(10, 2) (Not Null)
+
+11. **Commission**
+    - `CommissionID`: serial (Primary Key)
+    - `SaleDetailID`: integer (Foreign Key referencing `TicketSaleDetail.SaleDetailID`)
+    - `ResellerID`: integer (Foreign Key referencing `Reseller.ResellerID`)
+    - `CommissionAmount`: numeric(10, 2)
+
+### Relationships Summary:
+
+- **VenueOrganizer** manages **Events**.
+- **Events** can be recurring and have **SubEvents**.
+- **SubEvents** have **TicketCategories**.
+- **Resellers** are allocated tickets in **EventTicketAllocation**.
+- **Customers** purchase tickets recorded in **TicketSale**.
+- **Sellers** can be either a **VenueOrganizer** or a **Reseller** in the **Seller** table.
+- **Commissions** are calculated based on **TicketSaleDetail**.
+
+This ordered structure outlines how each table is related to others and ensures that the dependencies are clearly defined for an event management system.

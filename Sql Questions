@@ -1,0 +1,68 @@
+1. Group by /having
+2. Union and union all
+3. Query order
+	Getting Data (FROM/JOIN)
+	Row Filter (WHERE)
+	Grouping (GROUP BY)
+	Group Filter (HAVING)
+	Return Expression (SELECT)
+	Order & Paging (ORDER BY & LIMIT/OFFSET)
+4. cte
+
+
+5.How to find the last id in a table?
+6.How to find the values in a text column of a table that start with a certain letter? LIKE 'A%';
+7.What is normalization in SQL, and why use it?
+
+8.How to find a duplicate record?
+
+9.Given a table TBL with a field Nmbr that has rows with the following values:
+
+	1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1
+
+	Write a query to add 2 where Nmbr is 0 and add 3 where Nmbr is 1.
+
+10.
+	test_a
+  (10),
+  (20),
+  (30),
+  (40),
+  (50);
+
+	test_b
+  (10),
+  (30),
+  (50);
+
+	Output
+	20
+	40
+
+11.
+
+	Given the following tables:
+
+sql> SELECT * FROM runners;
++----+--------------+
+| id | name         |
++----+--------------+
+|  1 | John Doe     |
+|  2 | Jane Doe     |
+|  3 | Alice Jones  |
+|  4 | Bobby Louis  |
+|  5 | Lisa Romero  |
++----+--------------+
+
+sql> SELECT * FROM races;
++----+----------------+-----------+
+| id | event          | winner_id |
++----+----------------+-----------+
+|  1 | 100 meter dash |  2        |
+|  2 | 500 meter dash |  3        |
+|  3 | cross-country  |  2        |
+|  4 | triathalon     |  NULL     |
++----+----------------+-----------+
+What will be the result of the query below?
+
+SELECT * FROM runners WHERE id NOT IN (SELECT winner_id FROM races)
